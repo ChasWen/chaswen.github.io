@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>linux系统下使用nginx实现mysql的连接</title>
+    <link href="/2021/06/25/linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E4%BD%BF%E7%94%A8nginx%E5%AE%9E%E7%8E%B0mysql%E7%9A%84%E8%BF%9E%E6%8E%A5/"/>
+    <url>/2021/06/25/linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E4%BD%BF%E7%94%A8nginx%E5%AE%9E%E7%8E%B0mysql%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1、前提环境"><a href="#1、前提环境" class="headerlink" title="1、前提环境"></a>1、前提环境</h3><p>服务器A可连接服务器B，服务器B可连接服务器C，服务器C只可被服务器B连接，若要实现服务器A连接服务器C，可在服务器B上启用nginx转发至服务器C。</p><h3 id="2、环境准备"><a href="#2、环境准备" class="headerlink" title="2、环境准备"></a>2、环境准备</h3><p>下载nginx最新版本（需要用到stream模块，旧版本可能无法使用），安装到linux中，这步自行百度。安装完成后不要启动nginx。</p><h3 id="3、配置conf"><a href="#3、配置conf" class="headerlink" title="3、配置conf"></a>3、配置conf</h3><p>在HTTP上面加上如下配置：</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">stream</span> &#123;<br>    <span class="hljs-attribute">upstream</span> sql &#123;   <br>    <span class="hljs-comment"># 配置服务器C的地址和端口</span><br>        <span class="hljs-attribute">server</span> xxx.xxx.xxx.xxx:<span class="hljs-number">3306</span> weight=<span class="hljs-number">1</span> max_fails=<span class="hljs-number">2</span> fail_timeout=<span class="hljs-number">30s</span>;   <br>    &#125;<br>    <span class="hljs-section">server</span> &#123;<br>     <span class="hljs-comment"># 配置服务器B的暴露端口</span><br>       <span class="hljs-attribute">listen</span>     <span class="hljs-number">3307</span>;<br>       <span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">60s</span>;<br>       <span class="hljs-attribute">proxy_timeout</span> <span class="hljs-number">60s</span>;<br>       <span class="hljs-attribute">proxy_pass</span> sql;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>而后启动nginx服务，便可实现通过连接服务器B的3307端口访问到服务器C的3306数据库了。</p><p>以上</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>教程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>nginx</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>配置免费图床</title>
+    <link href="/2020/12/17/%E4%BD%BF%E7%94%A8gitee%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/"/>
+    <url>/2020/12/17/%E4%BD%BF%E7%94%A8gitee%E6%90%AD%E5%BB%BA%E5%85%8D%E8%B4%B9%E5%9B%BE%E5%BA%8A/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1-安装PicGo"><a href="#1-安装PicGo" class="headerlink" title="1. 安装PicGo"></a>1. 安装PicGo</h3><p>在 PicGo的github主页下载安装，不要装在<strong>C:\Program Files</strong>这个路劲下面！</p><p>点击<a href="https://github.com/Molunerfinn/PicGo/releases">这里</a>进入下载，<strong>windows用户</strong>选择**.exe**的文件后缀安装</p><p>安装不作过程讲解</p><h3 id="2-创建一个gitee仓库"><a href="#2-创建一个gitee仓库" class="headerlink" title="2. 创建一个gitee仓库"></a>2. 创建一个gitee仓库</h3><p>首先，你得有个<strong>gitee</strong>的账户！没有的话就自己去<strong>注册</strong>吧！</p><p>附上<a href="https://gitee.com/">码云链接</a></p><p>创建一个新的仓库</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203130904.png" alt="image-20201203130904161"></p><p>名字随意，保证框框的<strong>三个内容</strong>是<strong>一样</strong>的就可以了!</p><p>选择公开，一定要点使用<strong>readme初始化</strong>这个仓库！</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203131336.png" alt="image-20201203131336649"></p><p>创建好仓库后，新建一个文件， 文件命名为： <strong>index.html</strong></p><p>并在代码框输入</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span> 任意内容 <span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br></code></pre></td></tr></table></figure><p>提交</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203131550.png" alt="image-20201203131550205"></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203131640.png" alt="image-20201203131640892"></p><p>然后点击 <strong>服务</strong>–<strong>Gitee Pages</strong>–<strong>启动</strong>   稍等片刻后就会生成这个地址 点击访问</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203131855.png" alt="image-20201203131855308"></p><p>若网页出现你刚刚输入的内容，恭喜你，已经要成功一半了！</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203132120.png" alt="image-20201203132120795"></p><p>点击<strong>个人设置</strong>–<strong>安全设置</strong>–<strong>私人令牌</strong>–<strong>生成新令牌</strong></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203132229.png" alt="image-20201203132229564"></p><p>填写描述，只选择<strong>projects</strong> 后提交</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203132543.png" alt="image-20201203132543916"></p><p>而后将生成一个令牌，请务必<strong>保存复制</strong>后关闭页面</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203132634.png" alt="image-20201203132634684"></p><h3 id="3-配置PicGo"><a href="#3-配置PicGo" class="headerlink" title="3. 配置PicGo"></a>3. 配置PicGo</h3><p>打开PicGo主界面，点 <strong>插件设置</strong>–<strong>搜索gitee</strong>–安装插件</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203132839.png" alt="image-20201203132839414"></p><p>显示已安装后，重启PicGo，在<strong>图床设置</strong>中点击<strong>Gitee图床</strong></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133000.png" alt="image-20201203133000638"></p><p><strong>owner</strong>就是仓库地址中间的那个，<strong>repo</strong>就是仓库地址最后面的名，<strong>token</strong>就是刚刚保存复制的<strong>私人令牌</strong></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133203.png" alt="image-20201203133203403"></p><p>填写完毕后，确定，并设置为默认图床</p><p>至此就<strong>配置完毕</strong>了~ </p><p>可以直接在 上传区 优雅的上传图片，上传的图片也都会在相册找到</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133549.png" alt="image-20201203133548999"></p><p>还可以打开PicGo设置点击以下设置解放生产力</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133627.png" alt="image-20201203133627789"></p><h3 id="4-配置Typora-Markdown编写工具"><a href="#4-配置Typora-Markdown编写工具" class="headerlink" title="4. 配置Typora Markdown编写工具"></a>4. 配置Typora Markdown编写工具</h3><p>点击<strong>文件</strong>–<strong>偏好设置</strong>–<strong>图像</strong></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133736.png" alt="image-20201203133736220"></p><p>**插入图片时 ** 选择 <strong>上传图片</strong>   </p><p><strong>上传服务</strong>  选择  <strong>PicGo（app）</strong></p><p>路径选择 你的安装目录下的exe执行文件</p><p>最后<strong>验证图片上传选项</strong></p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203133916.png" alt="image-20201203133916126"></p><p>这样就成功了！</p><p><img src="https://gitee.com/Chaswen/photo/raw/master/20201203134046.png" alt="image-20201203134045973"></p><h2 id="可以优雅的写博客了"><a href="#可以优雅的写博客了" class="headerlink" title="可以优雅的写博客了~~~"></a>可以优雅的写博客了~~~</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>教程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>图床</tag>
+      
+      <tag>PicGo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>一条简短的通知~</title>
+    <link href="/2020/12/04/2020-12-04-%E7%BB%93%E6%9D%9F%E5%9B%A2%E5%AD%A6/"/>
+    <url>/2020/12/04/2020-12-04-%E7%BB%93%E6%9D%9F%E5%9B%A2%E5%AD%A6/</url>
+    
+    <content type="html"><![CDATA[<p>2020年12月4日</p><p>​          自华南理工大学广州学院计算机工程学院学生会第八届委员会第一次全委会以来（截止2020年11月1日），计算机工程学院学生会温程盛同学离开学生会工作岗位，其学生会主席职务自行卸免。</p><p>​        </p><p>​          结束啦，下一程在哪呢。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>生活</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World~</title>
+    <link href="/2020/11/30/2020-11-30-hello-world/"/>
+    <url>/2020/11/30/2020-11-30-hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>​        也不知道写些啥..</p><p>​        就忙乎着半天终于搭好了自己想要的一个小平台吧，希望能让你在这里留下~</p><p>​        加油 IT人~</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>生活</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
