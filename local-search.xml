@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Linux 下 Docker hello world</title>
+    <link href="/2021/07/09/Linux%20%E4%B8%8B%20Docker%20hello%20world/"/>
+    <url>/2021/07/09/Linux%20%E4%B8%8B%20Docker%20hello%20world/</url>
+    
+    <content type="html"><![CDATA[<h3 id="1、安装服务"><a href="#1、安装服务" class="headerlink" title="1、安装服务"></a>1、安装服务</h3><ul><li><p>安装工具包</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum <span class="hljs-keyword">install</span> -y yum-utils <br></code></pre></td></tr></table></figure></li><li><p>设置docker仓库</p><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">yum-config-manager \<br>    --add-repo \<br>    http:<span class="hljs-regexp">//mi</span>rrors.aliyun.com<span class="hljs-regexp">/docker-ce/</span>linux<span class="hljs-regexp">/centos/</span>docker-ce.repo<br></code></pre></td></tr></table></figure></li><li><p>更新yum软件包索引</p><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">yum makecache fast</span><br></code></pre></td></tr></table></figure></li><li><p>安装最新版本docker</p><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim">yum install docker-<span class="hljs-keyword">ce</span> docker-<span class="hljs-keyword">ce</span>-cli containerd.io<br></code></pre></td></tr></table></figure></li><li><p>启动docker</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">systemctl <span class="hljs-literal">start</span> docker<br></code></pre></td></tr></table></figure></li><li><p>查看docker是否成功安装</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs applescript">docker <span class="hljs-built_in">version</span><br></code></pre></td></tr></table></figure></li><li><p>有时候docker无法正常启动可重启</p><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo service docker restart</span><br></code></pre></td></tr></table></figure></li></ul><h3 id="2、常用命令"><a href="#2、常用命令" class="headerlink" title="2、常用命令"></a>2、常用命令</h3><ul><li><p>搜索镜像，image为镜像名</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker search image<br></code></pre></td></tr></table></figure></li><li><p>下载镜像，image为镜像名，tag为版本</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs arduino">docker pull image:tag<br></code></pre></td></tr></table></figure></li><li><p>运行镜像，其中可附带参数，常用<br>-d 后台运行<br>-p 端口映射<br>-t: 在新容器内指定一个伪终端或终端。<br>-i: 允许你对容器内的标准输入 (STDIN) 进行交互。</p><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs arduino"><span class="hljs-comment">//不带参数</span><br>docker run image<br><br><span class="hljs-comment">//运行image 将宿主机的3306端口映射到容器的3306端口，且在后台运行，且容器是一个终端可交互</span><br>docker run -p <span class="hljs-number">3306</span>:<span class="hljs-number">3306</span> -itd image <br></code></pre></td></tr></table></figure></li><li><p>查看正在运行的docker进程</p><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker ps</span><br></code></pre></td></tr></table></figure></li><li><p>移除docker进程</p><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">docker <span class="hljs-built_in">rm</span> <span class="hljs-operator">-f</span> IMAGE ID<br></code></pre></td></tr></table></figure><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">//例子，这里是通过docker ps得到的docker进程信息<br>REPOSITORY              <span class="hljs-keyword">TAG</span>             <span class="hljs-title">IMAGE</span> ID       CREATED        SIZE<br><span class="hljs-keyword">date</span>                    latest          <span class="hljs-number">833361</span>a1b36a   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">733M</span>B<br>registry                latest          <span class="hljs-number">81</span>f154bf5651   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">3.7</span>GB<br>console                 latest          e7d6893dca87   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">169M</span>B<br><br>//想要终止<span class="hljs-keyword">date</span>容器，可以运行以下命令,因为imageid是唯一的，所以只要输入前几位就可了<br>docker rm -f <span class="hljs-number">833</span><br><br></code></pre></td></tr></table></figure><p>假如用docker stop仅仅只是停止容器而不是将进程删除。docker restart是重启容器。</p></li><li><p>查看当前环境下的docker镜像</p><figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs crmsh">docker images<br>//执行结果如下<br>REPOSITORY              <span class="hljs-keyword">TAG</span>             <span class="hljs-title">IMAGE</span> ID       CREATED        SIZE<br><span class="hljs-keyword">date</span>                    latest          <span class="hljs-number">833361</span>a1b36a   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">733M</span>B<br>registry                latest          <span class="hljs-number">81</span>f154bf5651   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">3.7</span>GB<br>console                 latest          e7d6893dca87   <span class="hljs-number">3</span> weeks ago    <span class="hljs-number">169M</span>B<br><br></code></pre></td></tr></table></figure></li><li><p>删除docker镜像</p><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">docker rmi -f Image ID</span><br></code></pre></td></tr></table></figure></li><li><p>进入docker容器</p><ul><li>docker attach</li><li>docker exec：推荐大家使用 docker exec 命令，因为此退出容器终端，不会导致容器的停止。</li></ul><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">docker exec -it ImageID <span class="hljs-regexp">/bin/</span>bash<br></code></pre></td></tr></table></figure></li></ul><h3 id="3、实例"><a href="#3、实例" class="headerlink" title="3、实例"></a>3、实例</h3><p>创建一个mysql镜像容器</p><ul><li><p>下载mysql镜像</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> pull mysql:<span class="hljs-number">5</span>.<span class="hljs-number">7</span><br></code></pre></td></tr></table></figure></li><li><p>运行</p><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">docker</span> run -itd --name mysql -p <span class="hljs-number">3306</span>:<span class="hljs-number">3306</span> -v /opt/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=root mysql:<span class="hljs-number">5</span>.<span class="hljs-number">7</span><br></code></pre></td></tr></table></figure><ul><li> -v /opt/mysql:/var/lib/mysql ：文件映射，将两个路径连接，任一路径内的文件发生变化都会使路径内统一</li></ul><p>  例子：docker run -v /opt/nginx:/etc/nginx/ nginx    将容器内的nginx文件映射出到服务器中，方便更改维护nginx的配置文件。</p><ul><li>-p 3306:3306 将主机的3306端口映射到容器的3306端口上。</li><li>-e 配置容器的系统变量，将MYSQL_ROOT_PASSWORD（mysql密码）设置为root</li></ul></li><li><p>使用navicat访问服务器链接测试</p></li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>教程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Dockers</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>linux系统下使用nginx实现mysql的连接</title>
     <link href="/2021/06/25/linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E4%BD%BF%E7%94%A8nginx%E5%AE%9E%E7%8E%B0mysql%E7%9A%84%E8%BF%9E%E6%8E%A5/"/>
     <url>/2021/06/25/linux%E7%B3%BB%E7%BB%9F%E4%B8%8B%E4%BD%BF%E7%94%A8nginx%E5%AE%9E%E7%8E%B0mysql%E7%9A%84%E8%BF%9E%E6%8E%A5/</url>
@@ -91,6 +116,19 @@
     
   </entry>
   
+  
+  
+  
+  
+  
+  <entry>
+    <title>about</title>
+    <link href="/"/>
+    <url>/</url>
+    
+    <content type="html"><![CDATA[<h3 id="只是一个很菜但是依然想往IT发展的小测试，起点不高但志向很大。"><a href="#只是一个很菜但是依然想往IT发展的小测试，起点不高但志向很大。" class="headerlink" title="只是一个很菜但是依然想往IT发展的小测试，起点不高但志向很大。"></a>只是一个很菜但是依然想往IT发展的小测试，起点不高但志向很大。</h3><h3 id="共勉"><a href="#共勉" class="headerlink" title="共勉!"></a>共勉!</h3>]]></content>
+    
+  </entry>
   
   
   
